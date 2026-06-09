@@ -113,6 +113,7 @@ const queryForm = document.querySelector("#queryForm");
 const queryInput = document.querySelector("#queryInput");
 const queryButton = document.querySelector("#queryButton");
 const queryAnswer = document.querySelector("#queryAnswer");
+const whatsappLink = document.querySelector("#whatsappLink");
 
 renderAnimatedHeading();
 renderUnits();
@@ -120,9 +121,36 @@ renderAmenities();
 renderTech();
 renderCompetitors();
 renderAdvisor();
+loadPublicConfig();
 
 advisorForm.addEventListener("change", renderAdvisor);
 queryForm.addEventListener("submit", answerPropertyQuery);
+whatsappLink.addEventListener("click", handleWhatsappClick);
+
+async function loadPublicConfig() {
+  try {
+    const response = await fetch("/api/config");
+    const config = await response.json();
+
+    if (config.whatsappUrl) {
+      whatsappLink.href = config.whatsappUrl;
+      whatsappLink.target = "_blank";
+      whatsappLink.rel = "noreferrer";
+      whatsappLink.dataset.ready = "true";
+    }
+  } catch {
+    whatsappLink.dataset.ready = "false";
+  }
+}
+
+function handleWhatsappClick(event) {
+  if (whatsappLink.dataset.ready === "true") return;
+
+  event.preventDefault();
+  queryAnswer.hidden = false;
+  queryAnswer.textContent = "WhatsApp is not configured yet. Add WHATSAPP_NUMBER in Render environment variables, then redeploy.";
+  document.querySelector("#matchmaker").scrollIntoView({ behavior: "smooth" });
+}
 
 function renderAnimatedHeading() {
   const target = document.querySelector("#animatedHeading");

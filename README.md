@@ -107,6 +107,7 @@ Set:
 ```text
 ANTHROPIC_API_KEY=your_actual_key_here
 ANTHROPIC_MODEL=claude-3-5-haiku-latest
+WHATSAPP_NUMBER=919812345678
 PORT=3000
 ```
 
@@ -142,7 +143,11 @@ npm start
 ```text
 ANTHROPIC_API_KEY=your_actual_key_here
 ANTHROPIC_MODEL=claude-3-5-haiku-latest
-PORT=10000
+WHATSAPP_NUMBER=919812345678
 ```
+
+Use your WhatsApp number with country code and no plus sign. For India, it should look like `919812345678`.
+
+Do not add `PORT` in Render. Render provides it automatically.
 
 Render provides free Node.js web services, but free services can sleep after inactivity. For a fully free static/edge setup later, convert this Express backend into Cloudflare Pages Functions or Vercel Functions.

@@ -11,6 +11,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const anthropicKey = process.env.ANTHROPIC_API_KEY;
 const anthropicModel = process.env.ANTHROPIC_MODEL || "claude-3-5-haiku-latest";
+const whatsappNumber = process.env.WHATSAPP_NUMBER || "918700786057";
 
 app.use(express.json({ limit: "1mb" }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -20,6 +21,21 @@ app.get("/api/health", (_req, res) => {
     ok: true,
     mode: anthropicKey ? "claude" : "mock",
     model: anthropicKey ? anthropicModel : "local-mock"
+  });
+});
+
+app.get("/api/config", (_req, res) => {
+  const normalizedNumber = whatsappNumber.replace(/[^\d]/g, "");
+  const message = [
+    "Hi Skilldify Developers,",
+    "I want details about The Palatial by Hero Homes.",
+    "Please help me with unit options, payment plan, and site visit."
+  ].join(" ");
+
+  res.json({
+    whatsappUrl: normalizedNumber
+      ? `https://wa.me/${normalizedNumber}?text=${encodeURIComponent(message)}`
+      : ""
   });
 });
 
